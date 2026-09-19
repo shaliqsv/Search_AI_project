@@ -10,7 +10,7 @@ The project has two goals, in this order. The first is to understand search and 
 |---|---|---|
 | Cost | Minimise. Target: tens of dollars for the whole build | No always-on managed services, no GPU hosting, no idle endpoints |
 | Compute | 8GB M3 Mac, Colab as backup | Sampled data, small models, out-of-core tooling |
-| Time | 10 to 15 hours a week, about 28 weeks (280 to 420 hours) | A frozen model set, a cut order, a mid-project checkpoint |
+| Time | Part-time side project | A frozen model set and a defined order for cutting scope |
 | Skills | Comfortable with Docker, Airflow and infrastructure as code | Levels 1 and 2 are about doing it well, not learning the basics |
 | Delivery | Docker-first, deployed to AWS | The image is the unit of shipping. AWS is the deployment target |
 
@@ -76,32 +76,32 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 | D1 | Phases are MLOps maturity levels 0, 1, 2 | Accepted |
 | D2 | OTTO as the dataset | Accepted |
 | D3 | Session sample in parquet, DuckDB or Polars, Kaggle for sampling | Accepted |
-| D4 | Synthetic categories from co-visitation, named from a fictional taxonomy | Provisional (week 2) |
+| D4 | Synthetic categories from co-visitation, named from a fictional taxonomy | Provisional |
 | D5 | Two separate query constructs: ranking evaluation and classifier evaluation | Accepted |
 | D6 | Session-only personalization | Accepted |
 | D7 | NDCG@10, recall@K, OTTO weighted recall, bootstrap CIs, temporal split | Accepted |
-| D8 | Five methods, shared candidate pool for the rerankers | Provisional (week 9) |
+| D8 | Five methods, shared candidate pool for the rerankers | Provisional |
 | D9 | Frozen benchmark set of about 300 pairs for judge and comparison tab | Accepted |
 | D10 | Co-visitation and BM25 baselines | Accepted |
 | D11 | LightGBM LambdaMART | Accepted |
 | D12 | Two-Tower with FAISS | Accepted |
 | D13 | DCN-V2 with MMoE | Accepted |
 | D14 | LLM ranker dropped | Accepted |
-| D15 | Position bias via simulation, IPW support in the pipeline | Provisional (week 14) |
+| D15 | Position bias via simulation, IPW support in the pipeline | Provisional |
 | D16 | Claude through Bedrock, model per role chosen by evaluation | Accepted |
 | D17 | Classifier with calibration, abstention and an embedding baseline | Accepted |
-| D18 | Explainer with numeric payload and faithfulness test | Provisional (week 15) |
+| D18 | Explainer with numeric payload and faithfulness test | Provisional |
 | D19 | Judge: batch, cached, calibrated against your labels | Accepted |
 | D20 | Docker-first, arm64 end to end | Accepted |
-| D21 | Training compute: Mac and Colab at Level 0, CPU-sized runs at Level 1 | Provisional (weeks 10 to 12) |
+| D21 | Training compute: Mac and Colab at Level 0, CPU-sized runs at Level 1 | Provisional |
 | D22 | Airflow in local Docker Compose | Accepted |
 | D23 | MLflow for tracking and registry | Accepted |
 | D24 | pandera for data validation | Accepted |
 | D25 | Feature management: Parquet plus DynamoDB, one shared implementation | Provisional |
-| D26 | Serving on Lambda (arm64 container) | Provisional (week 22) |
+| D26 | Serving on Lambda (arm64 container) | Provisional |
 | D27 | Promotion gate with paired bootstrap | Accepted |
 | D28 | GitHub Actions CI with OIDC to AWS | Accepted |
-| D29 | Terraform for infrastructure as code | Provisional (week 22) |
+| D29 | Terraform for infrastructure as code | Provisional |
 | D30 | CodeDeploy canary with alarm-driven rollback | Accepted |
 | D31 | Monitoring, drift and retraining triggers | Accepted |
 | D32 | Live endpoint protection | Accepted |
@@ -144,7 +144,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** Opaque labels such as cluster_017 (an LLM cannot classify a term against them). Names generated from item statistics (nothing semantic to go on). A real taxonomy from another dataset (no join key). Clustering on all weeks (leakage). Graph community detection such as Leiden (a valid alternative, worth a quick comparison against k-means). Item2vec embeddings instead of SVD (similar in spirit, more tuning). Much finer or coarser K (too sparse, or too vague to be a search box).
 
-**Revisit.** Week 2, after inspecting cluster sizes and stability.
+**Revisit.** After inspecting cluster sizes and stability.
 
 #### D5. Two separate query constructs
 
@@ -172,7 +172,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** MAP or MRR (less informative for graded multi-event relevance). AUC (not a ranking metric). Random splits (time leakage). Single point estimates (cannot tell noise from a real gain).
 
-**Revisit.** Week 3, for the gain values.
+**Revisit.** When the gain values are tuned.
 
 #### D8. Five methods and a shared candidate pool
 
@@ -182,7 +182,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** End-to-end for every method (confounded). Rerankers on Two-Tower candidates only (favors the deep path unfairly). Two-Tower candidates only in the live path (simpler, but check whether adding co-visitation raises recall).
 
-**Revisit.** Week 9, after Two-Tower recall is known.
+**Revisit.** After Two-Tower recall is known.
 
 #### D9. Frozen benchmark set
 
@@ -244,7 +244,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** IPW on OTTO with assumed propensities (unverifiable). Estimating propensities with EM or intervention harvesting (needs position variation OTTO does not have). Training the main pipeline on simulated impressions and clicks (throws away real behavior and turns the whole evaluation into a simulation). Skipping bias correction (loses a topic senior interviewers ask about). This is a deviation from the original brief, which applied IPW to training labels directly.
 
-**Revisit.** Week 14, if you would prefer the main pipeline to train on simulated exposure.
+**Revisit.** If you would prefer the main pipeline to train on simulated exposure.
 
 ### 6.E Claude roles
 
@@ -272,7 +272,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** Templated explanations with no LLM (deterministic and faithful, less natural, kept as the fallback and as a baseline). SHAP for every model (exact for LightGBM, awkward for DCN-V2). Free-form explanation with full context access (invites unfaithful claims).
 
-**Revisit.** Week 15. The attribution method for DCN-V2 is undecided. Candidates are leave-one-feature-group-out deltas and integrated gradients, computed only for the top few results to keep latency down.
+**Revisit.** The attribution method for DCN-V2 is undecided. Candidates are leave-one-feature-group-out deltas and integrated gradients, computed only for the top few results to keep latency down.
 
 #### D19. Judge
 
@@ -292,7 +292,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Why.** The image is what moves between your laptop and AWS, which keeps behavior identical and makes Level 2 deployment a matter of pushing the same artifact. Graviton is also cheaper.
 
-**Alternatives considered.** Conda environments only (no shippable artifact). amd64 images built through emulation (slow, and a mismatch with the Mac). Kubernetes with kind (overkill for one service). Check in week 1 that arm64 wheels exist for faiss, onnxruntime and lightgbm, and use conda-forge or a source build if one is missing.
+**Alternatives considered.** Conda environments only (no shippable artifact). amd64 images built through emulation (slow, and a mismatch with the Mac). Kubernetes with kind (overkill for one service). Check early that arm64 wheels exist for faiss, onnxruntime and lightgbm, and use conda-forge or a source build if one is missing.
 
 #### D21. Training compute
 
@@ -302,7 +302,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** Automating Colab (fragile). Always-on GPU (cost). SageMaker training from the start (pay per run, and acceptable as the fallback, but it adds SageMaker coupling early). Kaggle kernels (free GPU hours, but not part of an AWS pipeline).
 
-**Revisit.** Weeks 10 to 12, once real training times are known.
+**Revisit.** Once real training times are known.
 
 #### D22. Airflow in local Docker Compose
 
@@ -344,7 +344,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** SageMaker real-time endpoints (roughly $80 a month for one small always-on instance, and more for GPU). SageMaker Serverless Inference (CPU only, cold starts, SageMaker coupling). ECS Fargate (roughly $10 to $15 a month for the smallest always-on task, no cold starts, canary via CodeDeploy blue/green, and the switch if Lambda cold starts hurt). App Runner (similar to Fargate, less control). EC2 (manual operations). EKS (overkill).
 
-**Revisit.** Weeks 22 and 23, after measuring cold start and image size.
+**Revisit.** After measuring cold start and image size.
 
 #### D27. Promotion gate
 
@@ -370,7 +370,7 @@ OTTO is a session-based e-commerce dataset. As publicly described, it has roughl
 
 **Alternatives considered.** CDK in Python (natural for a data scientist, generates CloudFormation, heavier for small stacks). SAM (good for Lambda, narrow otherwise). Raw CloudFormation (verbose). Pulumi (smaller community). Console clicking (defeats Level 2).
 
-**Revisit.** Week 22. The choice is close, and switching costs little if you prefer CDK.
+**Revisit.** The choice is close, and switching costs little if you prefer CDK.
 
 #### D30. CodeDeploy canary with alarm rollback
 
@@ -456,28 +456,7 @@ search-ranking/
   .github/workflows/
 ```
 
-## 9. Timeline and milestones
-
-About 28 weeks at 10 to 15 hours a week. Treat the dates as estimates.
-
-| Weeks | Milestone | Done when |
-|---|---|---|
-| 1 to 2 | Setup and data: repo, dev container, budget alarm, arm64 check, OTTO sample, temporal split, clustering, query construction | Sampling is scripted and reproducible, a leakage checklist passes, cart and order rates are checked |
-| 3 to 4 | Evaluation harness and baselines: popularity, co-visitation, BM25 floor | Metrics match a library on toy cases, every baseline has a score with a bootstrap interval |
-| 5 to 6 | LightGBM LambdaMART over the shared candidate pool | It beats the baselines, and you can explain the lambda gradients and feature importances |
-| 7 to 9 | Two-Tower with FAISS | Recall@K at several K, negative-sampling ablation, ANN recall against exact search |
-| 10 to 12 | DCN-V2 with MMoE on click, cart and order | Compared to LightGBM per task, with a single-task ablation, CPU training time measured |
-| 13 to 14 | Position-bias study | Naive model shows the bias, IPW recovers the true ordering, clipping tradeoff plotted |
-| 15 to 17 | Claude roles and manual deploy: classifier evaluation, explainer faithfulness test, judge calibration, hand-deployed container | Classifier calibration and judge agreement with your labels are reported, Level 0 exit criteria met |
-| 18 to 21 | Level 1: Airflow DAG, pandera gates, MLflow registry, promotion gate, weekly trigger | Consecutive weeks give one promotion and one rejection, reproducibly |
-| 22 to 25 | Level 2: Actions CI, Terraform, Lambda deployment, CodeDeploy canary, failure injection | Both failure cases are demonstrated and a feature change deploys hands-free |
-| 26 to 28 | Frontend: Search, Methods, MLOps, Architecture tabs | Static site reads pipeline exports, live toggle works |
-
-Checkpoint at the end of week 14. If Level 0 modeling looks likely to run past week 17, trim rather than push. Cut in this order: the standalone BM25 side lab, explainer polish, the frontend's live toggle, then shrink the position-bias study to one clean simulation. Protect the evaluation harness, the promotion gate and the failure-injection demo, because they carry the most signal.
-
-Two habits to keep from week 1. First, log every manual step and how long it took, because those numbers cannot be reconstructed later and they feed the MLOps tab. Second, keep a decisions log in docs/decisions with a short entry every time something is chosen or cut, including the reason and the price where relevant.
-
-## 10. Rough cost picture
+## 9. Rough cost picture
 
 These are estimates for a lean build with nothing left running. Verify with the AWS Pricing Calculator.
 
@@ -492,39 +471,39 @@ These are estimates for a lean build with nothing left running. Verify with the 
 | Frontend | S3 with CloudFront, or GitHub Pages | Free tier | Always-on app server | Monthly instance cost |
 | Deployment | CodeDeploy for Lambda | No additional charge (verify) | SageMaker guardrails | Tied to endpoint costs |
 
-## 11. Risks
+## 10. Risks
 
 | Risk | Mitigation |
 |---|---|
-| Level 0 sprawl eats time meant for Levels 1 and 2 | Time-boxed Level 0, model freeze, week 14 checkpoint, cut order in Section 9 |
+| Notebook work sprawls and delays the ops levels | Model freeze before any ops work, and the cut order in tasks.md |
 | Synthetic categories make results circular | Cluster on the training window only, documented leaks (D4, D5), classifier and judge on independent constructs, honest write-up |
 | The judge measures little because items are IDs | Calibrate against your labels, state the limit (D19), treat as a coherence check |
 | CPU-only Level 1 training is too slow | Measure early, keep models small, fall back to spot training (D21) |
-| arm64 wheels missing (FAISS, ONNX Runtime, LightGBM) | Check in week 1 with a hello-world image, use conda-forge or a source build |
+| arm64 wheels missing (FAISS, ONNX Runtime, LightGBM) | Check early with a hello-world image, use conda-forge or a source build |
 | Lambda cold start or image size hurts live mode | Baked bundle, ONNX, measure, fall back to Fargate (D26) |
 | Cost runaway from an exposed endpoint or idle resources | Budget alarms, API key, reserved concurrency cap, kill switch (D32, D34) |
 | Too few cart or order events in the sample | Stratify the sample and record the reweighting (D3) |
 | Scope creep from extras (LLM ranker, SASRec) | Parked list, revisit only after Level 2 |
-| OTTO license or terms limit publishing derived data | Check in week 1, keep samples out of public repos unless allowed |
+| OTTO license or terms limit publishing derived data | Check before publishing anything, keep samples out of public repos unless allowed |
 | Bedrock model availability or pricing changes | Configuration-driven model IDs, verify early |
-| Frontend polish consumes the schedule | Static site, fixed 3-week window, live toggle is first to cut |
+| Frontend polish consumes the schedule | Static site, live toggle is first to cut |
 
-## 12. Open questions and checkpoints
+## 11. Open questions
 
-| Question | Decide by |
+| Question | Settled during |
 |---|---|
-| Region and Bedrock model availability in it | Week 1 |
-| OTTO license and what may be published | Week 1 |
-| Number of clusters K and the naming alignment method | Week 2 |
-| Graded gains for NDCG | Week 3 |
-| Source for the published OTTO benchmark comparing GBDT and deep rankers, cited in the original brief (find the citation before quoting it) | Week 5 |
-| Composition of the shared candidate pool | Week 9 |
-| CPU training time and whether a spot-training task is needed | Weeks 10 to 12 |
-| Whether the main pipeline should train on simulated exposure (D15) | Week 14 |
-| Attribution method for the DCN-V2 explainer | Week 15 |
-| Terraform or CDK, and Lambda or Fargate | Weeks 22 and 23 |
+| Region and Bedrock model availability in it | Level 0 |
+| OTTO license and what may be published | Setup |
+| Number of clusters K and the naming alignment method | Data notebooks |
+| Graded gains for NDCG | Evaluation notebooks |
+| Source for the published OTTO benchmark comparing GBDT and deep rankers, cited in the original brief (find the citation before quoting it) | Model notebooks |
+| Composition of the shared candidate pool | Model notebooks |
+| CPU training time and whether a spot-training task is needed | Model notebooks |
+| Whether the main pipeline should train on simulated exposure (D15) | Position-bias notebooks |
+| Attribution method for the DCN-V2 explainer | Claude roles notebooks |
+| Terraform or CDK, and Lambda or Fargate | Level 2 |
 
-## 13. Definition of done
+## 12. Definition of done
 
 - A reviewer can follow documented steps to reproduce the sample-based metrics table from the frozen bundle.
 - The three levels differ by measured numbers (manual steps, retrain time, deploy time, rollback time, reproducibility, test count).
@@ -536,7 +515,7 @@ These are estimates for a lean build with nothing left running. Verify with the 
 - Spend stayed inside your budget and teardown works.
 - The decision log is current.
 
-## 14. References
+## 13. References
 
 These are from memory. Check titles and details before citing them.
 
