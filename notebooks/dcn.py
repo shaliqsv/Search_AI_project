@@ -98,19 +98,32 @@ def ndcg10_pool(scores, labels, pool=200):
     return float((dcg[keep] / ideal[keep]).mean())
 
 
-def train_model(model, x_tr, c_tr, y_tr, x_va, c_va, y_va, task_weights, epochs=3, batch=4096, lr=2e-3, seed=0, label=""):
-    """Train with a weighted sum of per-task BCE. Keeps the epoch with the lowest validation loss."""
+def bce_loss(logits, y, task_weights, sample_weight=None):
+    """Weighted sum over tasks of the mean per-task BCE.
+
+    sample_weight: optional (B,) weight per example (issue #32/#33: inverse propensity weights).
+    None means every example has weight 1, and gives exactly the same loss as before.
+    """
+    per = nn.functional.binary_cross_entropy_with_logits(logits, y, reduction="none")
+    if sample_weight is not None:
+        per = per * sample_weight.unsqueeze(1)
+    per_task = per.mean(dim=0)
+    return (per_task * torch.as_tensor(task_weights, dtype=torch.float32)).sum(), per_task
+
+
+def train_model(model, x_tr, c_tr, y_tr, x_va, c_va, y_va, task_weights, epochs=3, batch=4096, lr=2e-3, seed=0, label="", w_tr=None):
+    """Train with a weighted sum of per-task BCE. Keeps the epoch with the lowest validation loss.
+
+    w_tr: optional per-example training weights (N,). Default None = all ones. Validation is never weighted.
+    """
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
     opt = torch.optim.Adam(model.parameters(), lr=lr)
-    bce = nn.BCEWithLogitsLoss(reduction="none")
-    w = torch.tensor(task_weights, dtype=torch.float32)
     history, best = [], (float("inf"), None, 0)
     start = time.time()
 
-    def loss_fn(logits, y):
-        per_task = bce(logits, y).mean(dim=0)
-        return (per_task * w).sum(), per_task
+    def loss_fn(logits, y, sw=None):
+        return bce_loss(logits, y, task_weights, sw)
 
     for epoch in range(epochs):
         model.train()
@@ -118,7 +131,7 @@ def train_model(model, x_tr, c_tr, y_tr, x_va, c_va, y_va, task_weights, epochs=
         tot, per = [], []
         for s in range(0, len(order) - batch + 1, batch):
             ids = torch.from_numpy(order[s : s + batch])
-            loss, pt = loss_fn(model(x_tr[ids], c_tr[ids]), y_tr[ids])
+            loss, pt = loss_fn(model(x_tr[ids], c_tr[ids]), y_tr[ids], None if w_tr is None else w_tr[ids])
             opt.zero_grad(); loss.backward(); opt.step()
             tot.append(loss.item()); per.append(pt.detach().numpy())
         model.eval()
