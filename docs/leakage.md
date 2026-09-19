@@ -13,7 +13,8 @@ Checked by `notebooks/12_leakage_audit.ipynb` on window w0 (train days 0-13, eva
 | Session sampling | not applicable | Sessions are chosen by a hash of the session ID only, never by events or labels |
 | Items never seen in training | not a leak, a coverage limit | 3.9% of label events are on items with no training events. 11.8% are on items without a category. Models cannot retrieve them |
 | Popularity counts (#17) | checked automatically | Click counts equal a recount over events before the train end and differ from counts over all weeks (checked in `17_popularity_baseline.ipynb`) |
-| Rate and other features | pending | Call `check_counts_from_window` on the counts each feature uses. Re-run after #22 |
+| Item features as of a cutoff (#22) | checked automatically | Click counts in `AsOf` equal a recount before the cutoff (day 14 and day 11) and differ from later-inclusive counts. Changing the cutoff from day 11 to 12 changes 246,126 items. `hours_since_last_seen` is never negative. The training co-visitation matrix was built from events before day 11 |
+| Categories for training queries (#22) | known small leak (accepted) | Categories were clustered on days 0-13, so for training queries (days 11-13) the category assignment was partly shaped by those days. Counts and rates are not affected |
 
 ## The deliberate-leak demonstration
 `check_counts_from_window(counts, events, train_end, name)` recomputes counts from events before the train end and compares. The notebook passes it counts over all four weeks and shows that it fails, so the check is real.

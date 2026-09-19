@@ -46,6 +46,7 @@ def prepare_eval(queries):
                 "prefix": prefix,
                 "prefix_list": row["prefix_aid"],
                 "prefix_types": row["prefix_type"],
+                "prefix_ts_last": row["prefix_ts_last"],
                 "category": row["query_category"],
                 "labels": labels,
             }
