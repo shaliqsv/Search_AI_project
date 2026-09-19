@@ -12,3 +12,6 @@ Performing search and ranking
 - Start: `uv run jupyter lab`, and pick the `search-ranking` kernel
 - Name notebooks `notebooks/NN_short_name.ipynb`, where NN is the issue number. Start from `notebooks/00_template.ipynb`
 - Large data lives in `data/` (gitignored)
+
+## Data license
+OTTO data is CC BY 4.0 (credit OTTO, link the license, say what changed). Kaggle rules are not verified, so no OTTO data or derived samples are committed. Details: `docs/otto-license.md`.
