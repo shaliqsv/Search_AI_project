@@ -1,0 +1,408 @@
+{
+  "synthetic": true,
+  "note": "Names are fictional and carry no true meaning about the items.",
+  "taxonomy": "artifacts/taxonomy.json",
+  "method": "average-linkage dendrogram order of centroids paired with depth-first taxonomy leaf order",
+  "categories": {
+    "0": {
+      "name": "Kids Bottoms",
+      "group": "Kids & Baby",
+      "synthetic": true
+    },
+    "1": {
+      "name": "Mirrors",
+      "group": "Lighting & Decor",
+      "synthetic": true
+    },
+    "2": {
+      "name": "Cycling",
+      "group": "Sports & Leisure",
+      "synthetic": true
+    },
+    "3": {
+      "name": "Haircare",
+      "group": "Beauty & Care",
+      "synthetic": true
+    },
+    "4": {
+      "name": "Candles & Holders",
+      "group": "Lighting & Decor",
+      "synthetic": true
+    },
+    "5": {
+      "name": "Plants & Planters",
+      "group": "Garden & Outdoor",
+      "synthetic": true
+    },
+    "6": {
+      "name": "Skirts",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "7": {
+      "name": "Shower Accessories",
+      "group": "Bathroom",
+      "synthetic": true
+    },
+    "8": {
+      "name": "Baby Clothing",
+      "group": "Kids & Baby",
+      "synthetic": true
+    },
+    "9": {
+      "name": "Sandals",
+      "group": "Footwear",
+      "synthetic": true
+    },
+    "10": {
+      "name": "Scarves & Gloves",
+      "group": "Bags & Accessories",
+      "synthetic": true
+    },
+    "11": {
+      "name": "Formal Shoes",
+      "group": "Footwear",
+      "synthetic": true
+    },
+    "12": {
+      "name": "Camping",
+      "group": "Sports & Leisure",
+      "synthetic": true
+    },
+    "13": {
+      "name": "Backpacks",
+      "group": "Bags & Accessories",
+      "synthetic": true
+    },
+    "14": {
+      "name": "Towels",
+      "group": "Bathroom",
+      "synthetic": true
+    },
+    "15": {
+      "name": "Kids Shoes",
+      "group": "Footwear",
+      "synthetic": true
+    },
+    "16": {
+      "name": "Chinos & Jeans",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "17": {
+      "name": "Wardrobes",
+      "group": "Bedroom",
+      "synthetic": true
+    },
+    "18": {
+      "name": "Tops & Blouses",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "19": {
+      "name": "Grooming Tools",
+      "group": "Beauty & Care",
+      "synthetic": true
+    },
+    "20": {
+      "name": "Coats & Jackets",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "21": {
+      "name": "Yoga & Fitness",
+      "group": "Sports & Leisure",
+      "synthetic": true
+    },
+    "22": {
+      "name": "Trousers & Jeans",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "23": {
+      "name": "Necklaces",
+      "group": "Jewellery & Watches",
+      "synthetic": true
+    },
+    "24": {
+      "name": "Earrings & Rings",
+      "group": "Jewellery & Watches",
+      "synthetic": true
+    },
+    "25": {
+      "name": "Suits & Blazers",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "26": {
+      "name": "Garden Tools",
+      "group": "Garden & Outdoor",
+      "synthetic": true
+    },
+    "27": {
+      "name": "Underwear & Socks",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "28": {
+      "name": "Makeup",
+      "group": "Beauty & Care",
+      "synthetic": true
+    },
+    "29": {
+      "name": "Kitchen Storage",
+      "group": "Kitchen & Dining",
+      "synthetic": true
+    },
+    "30": {
+      "name": "Barbecues",
+      "group": "Garden & Outdoor",
+      "synthetic": true
+    },
+    "31": {
+      "name": "School Uniforms",
+      "group": "Kids & Baby",
+      "synthetic": true
+    },
+    "32": {
+      "name": "Glassware",
+      "group": "Kitchen & Dining",
+      "synthetic": true
+    },
+    "33": {
+      "name": "Toys & Games",
+      "group": "Kids & Baby",
+      "synthetic": true
+    },
+    "34": {
+      "name": "Mattresses",
+      "group": "Bedroom",
+      "synthetic": true
+    },
+    "35": {
+      "name": "Wallets & Purses",
+      "group": "Bags & Accessories",
+      "synthetic": true
+    },
+    "36": {
+      "name": "Office Chairs",
+      "group": "Home Office",
+      "synthetic": true
+    },
+    "37": {
+      "name": "Hats & Caps",
+      "group": "Bags & Accessories",
+      "synthetic": true
+    },
+    "38": {
+      "name": "Duvets & Pillows",
+      "group": "Bedroom",
+      "synthetic": true
+    },
+    "39": {
+      "name": "Knitwear",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "40": {
+      "name": "Outerwear",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "41": {
+      "name": "Running Gear",
+      "group": "Sports & Leisure",
+      "synthetic": true
+    },
+    "42": {
+      "name": "TV Stands",
+      "group": "Living Room",
+      "synthetic": true
+    },
+    "43": {
+      "name": "Ceiling Lights",
+      "group": "Lighting & Decor",
+      "synthetic": true
+    },
+    "44": {
+      "name": "Cutlery",
+      "group": "Kitchen & Dining",
+      "synthetic": true
+    },
+    "45": {
+      "name": "Boots",
+      "group": "Footwear",
+      "synthetic": true
+    },
+    "46": {
+      "name": "Garden Furniture",
+      "group": "Garden & Outdoor",
+      "synthetic": true
+    },
+    "47": {
+      "name": "Vases & Ornaments",
+      "group": "Lighting & Decor",
+      "synthetic": true
+    },
+    "48": {
+      "name": "Watches",
+      "group": "Jewellery & Watches",
+      "synthetic": true
+    },
+    "49": {
+      "name": "Bath Mats",
+      "group": "Bathroom",
+      "synthetic": true
+    },
+    "50": {
+      "name": "Trainers",
+      "group": "Footwear",
+      "synthetic": true
+    },
+    "51": {
+      "name": "Skincare",
+      "group": "Beauty & Care",
+      "synthetic": true
+    },
+    "52": {
+      "name": "Fragrance",
+      "group": "Beauty & Care",
+      "synthetic": true
+    },
+    "53": {
+      "name": "Dresses",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "54": {
+      "name": "Table Lamps",
+      "group": "Lighting & Decor",
+      "synthetic": true
+    },
+    "55": {
+      "name": "Dinnerware",
+      "group": "Kitchen & Dining",
+      "synthetic": true
+    },
+    "56": {
+      "name": "Small Appliances",
+      "group": "Kitchen & Dining",
+      "synthetic": true
+    },
+    "57": {
+      "name": "Rugs",
+      "group": "Living Room",
+      "synthetic": true
+    },
+    "58": {
+      "name": "Sofas & Armchairs",
+      "group": "Living Room",
+      "synthetic": true
+    },
+    "59": {
+      "name": "Gym Wear",
+      "group": "Sports & Leisure",
+      "synthetic": true
+    },
+    "60": {
+      "name": "Stationery",
+      "group": "Home Office",
+      "synthetic": true
+    },
+    "61": {
+      "name": "Loungewear",
+      "group": "Women's Clothing",
+      "synthetic": true
+    },
+    "62": {
+      "name": "Cushions & Throws",
+      "group": "Living Room",
+      "synthetic": true
+    },
+    "63": {
+      "name": "Beds & Frames",
+      "group": "Bedroom",
+      "synthetic": true
+    },
+    "64": {
+      "name": "Shirts",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "65": {
+      "name": "Bedside Tables",
+      "group": "Bedroom",
+      "synthetic": true
+    },
+    "66": {
+      "name": "Belts",
+      "group": "Bags & Accessories",
+      "synthetic": true
+    },
+    "67": {
+      "name": "Wall Art",
+      "group": "Lighting & Decor",
+      "synthetic": true
+    },
+    "68": {
+      "name": "Kids Tops",
+      "group": "Kids & Baby",
+      "synthetic": true
+    },
+    "69": {
+      "name": "Handbags",
+      "group": "Bags & Accessories",
+      "synthetic": true
+    },
+    "70": {
+      "name": "Outdoor Lighting",
+      "group": "Garden & Outdoor",
+      "synthetic": true
+    },
+    "71": {
+      "name": "Cookware",
+      "group": "Kitchen & Dining",
+      "synthetic": true
+    },
+    "72": {
+      "name": "T-Shirts & Polos",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "73": {
+      "name": "Hoodies & Sweatshirts",
+      "group": "Men's Clothing",
+      "synthetic": true
+    },
+    "74": {
+      "name": "Bathroom Storage",
+      "group": "Bathroom",
+      "synthetic": true
+    },
+    "75": {
+      "name": "Bedding Sets",
+      "group": "Bedroom",
+      "synthetic": true
+    },
+    "76": {
+      "name": "Coffee Tables",
+      "group": "Living Room",
+      "synthetic": true
+    },
+    "77": {
+      "name": "Desks",
+      "group": "Home Office",
+      "synthetic": true
+    },
+    "78": {
+      "name": "Bookcases",
+      "group": "Living Room",
+      "synthetic": true
+    },
+    "79": {
+      "name": "Swimwear",
+      "group": "Women's Clothing",
+      "synthetic": true
+    }
+  }
+}
