@@ -8,7 +8,7 @@ Python 3.11 with uv.
 - Add a dependency: `uv add <pkg>` (dev-only: `uv add --dev <pkg>`). Never use pip directly.
 - Test: `uv run pytest`
 - Lint: `uv run ruff check .`
-Notebook commands are added by issue #2.
+- Notebooks: `uv run jupyter lab` (kernel `search-ranking`). One-time setup commands are in the README.
 
 ## Files
 - Tasks are GitHub issues, one at a time. Process is in `_doc/process.md`.
