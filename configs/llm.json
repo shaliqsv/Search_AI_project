@@ -1,0 +1,8 @@
+{
+  "classifier_model": "claude-haiku-4-5-20251001",
+  "explainer_model": "claude-haiku-4-5-20251001",
+  "judge_model": "claude-sonnet-5",
+  "classifier_prompt_version": "classifier-v1",
+  "max_tokens": 300,
+  "cache_dir": "data/llm_cache"
+}
