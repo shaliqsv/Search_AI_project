@@ -45,6 +45,7 @@ def prepare_eval(queries):
                 "session": row["session"],
                 "prefix": prefix,
                 "prefix_list": row["prefix_aid"],
+                "prefix_types": row["prefix_type"],
                 "category": row["query_category"],
                 "labels": labels,
             }
@@ -69,6 +70,7 @@ def evaluate(prepared, rank_fn):
                 "n_returned": len(ranking),
                 "ndcg10": ndcg_at_k(ranking, q["labels"], k=10),
                 "recall20": recall_at_k(ranking, relevant, k=20),
+                "recall50": recall_at_k(ranking, relevant, k=50),
                 "recall100": recall_at_k(ranking, relevant, k=100),
                 "wrecall20": otto_weighted_recall_session(ranking, q["labels"], k=20),
                 "click_recall20": by_type.get("click"),
@@ -82,7 +84,7 @@ def evaluate(prepared, rank_fn):
 def summarize(results, n_boot=1000, seed=0):
     """Mean and 95 percent bootstrap interval of each metric, plus OTTO's official weighted recall."""
     out = {}
-    for col in ("ndcg10", "recall20", "recall100", "wrecall20"):
+    for col in ("ndcg10", "recall20", "recall50", "recall100", "wrecall20"):
         out[col] = bootstrap_ci(results[col].to_numpy(), n_boot=n_boot, seed=seed)
     per_session = [
         {t: r for t, r in (("click", a), ("cart", b), ("order", c)) if r is not None}
