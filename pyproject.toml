@@ -27,6 +27,7 @@ dev = [
     "jupyterlab>=4.6.3",
     "nbstripout>=0.9.1",
     "pytest>=9.1.1",
+    "rank-bm25>=0.2.2",
     "ruff>=0.16.8",
 ]
 
