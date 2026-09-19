@@ -24,3 +24,6 @@ Python 3.11 with uv.
 - Cache every LLM call locally and use recorded fixtures in tests. Keep model IDs in config.
 - Don't commit OTTO data until the license check (task 3) allows it.
 - Minimise cost.
+- PyTorch, FAISS and LightGBM cannot be imported in one process on macOS (two OpenMP runtimes, `OMP: Error #15`). Never use `KMP_DUPLICATE_LIB_OK`; run them in separate processes and pass data as .npy/.parquet.
+- Notebook helper code lives in `notebooks/*.py` (imported with `sys.path.insert(0, "notebooks")`) until issue #52 moves it into `src/ranking/`.
+- Before committing, run `uv run ruff check .` and `uv run pytest -q`; commit only if both pass.
