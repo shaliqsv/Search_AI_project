@@ -16,7 +16,7 @@ A session belongs to at most one slice, decided by its first event. The same fun
 Categories, the co-visitation graph, embeddings, popularity and every other learned quantity use the training window (days 0-9) only (D4). Item-level features for a validation or test session are computed point in time, as of the day before the session, from past events only (D25).
 
 ## Why
-Time-ordered slices mimic deployment and stop future behaviour from leaking into features or categories. Cutting crossing sessions at the boundary keeps the future out of training. Assigning a session by its first event keeps slices session-disjoint. Ten training days, two validation days and two test days give the test slice about 4 percent of events after cutting, which is enough for stable intervals (see Step 0 and Step 1 tables), while keeping weeks 3 and 4 for Level 1.
+Time-ordered slices mimic deployment and stop future behaviour from leaking into features or categories. Cutting crossing sessions at the boundary keeps the future out of training. Assigning a session by its first event keeps slices session-disjoint. Measured on the sample (weeks 1-2, 13,064,647 events): training 9,060,280 events (69%), validation 661,000 events in 107,467 sessions (8,036 with an order), test 833,544 events in 127,458 sessions (9,526 with an order). Even the rarest head (orders) has thousands of evaluation sessions, enough for stable bootstrap intervals, while weeks 3 and 4 stay free for Level 1.
 
 ## Alternatives considered
 - Training on days 0-11 and testing on days 12-13 (test right after training, but no validation slice left for tuning).
