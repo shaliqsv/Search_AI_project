@@ -1,0 +1,7 @@
+measure,value
+combinations shared by 2+ rows,4220.0
+rows in those combinations,8440.0
+combinations with conflicting targets,7.0
+rows in conflicting combinations,14.0
+share of all rows,1.75e-6
+share of positives in a conflict,0.00019968620738838966

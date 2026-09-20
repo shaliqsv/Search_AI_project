@@ -1,0 +1,6 @@
+column,problem,handled_in
+session,"ID-like: 1.0 million distinct ids, an identifier not a feature","exclude from features; use as the entity for splits (Steps 4, 15)"
+aid,"ID-like item identifier with 1.4 million distinct values, long tail",never a numeric feature; encoding options in Step 13
+ts,Unix milliseconds stored as int64,convert to a datetime for time steps (Step 2A)
+type,"int8 code 0/1/2 for click/cart/order, low cardinality",treat as categorical (Step 2A)
+all,"No missing values, no constant column",Step 5 has little to treat
