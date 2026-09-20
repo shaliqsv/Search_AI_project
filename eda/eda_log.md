@@ -123,3 +123,36 @@ Confidence: Medium for the linear model (the two best options are tied and the g
 Affects later steps: The preprocessing spec excludes item_seen (constant, Step 6) and rrf (redundant, this step). Step 16 therefore uses 16 numeric features plus category.
 Needs human input: no
 
+### Step 11. Multivariate structure
+Kind: Diagnostic
+Options run: A PCA (explained variance, loadings); B t-SNE on 8,000 stratified rows coloured by the target (UMAP not run: not installed, t-SNE is the guide's alternative); C KMeans (k = 2-8) and a Gaussian mixture (k = 2-6) with silhouette scores.
+Observed: PCA: 5 of 16 components explain 90% of the variance (first component 56%); the leading loadings are ['pop_cat_pct', 'log_clicks', 'log_clicks_3d', 'covis_max'] for PC1. t-SNE: positives are only weakly grouped (49% of the neighbours of a positive point are positive, against 25% in this over-sampled plot), so there are no islands. Clustering: best KMeans k = 2 with silhouette 0.68 (k = 3 and 4: about 0.48; k = 5 and above: 0.28 or lower); its clusters hold 188,881, 11,119 rows with target rates 0.40%, 0.98%; the best Gaussian mixture reaches 0.54.
+Decision: No per-segment model. The k = 2 cluster id (KMeans fitted inside the training folds) is a candidate segment feature: it isolates a small group of rows with more than twice the target rate. It is tested in Step 16 (score with and without it) instead of being added now, because the group may only restate the co-visitation features (PC2 is made of them).
+Why: Guide rules: silhouette above about 0.25 means clear clusters, and a segment feature is proposed when clusters are clear and the target rate differs by cluster; both hold for k = 2 (silhouette 0.68, target rate 0.98% against 0.40%) and neither for k of 5 or more. Distances between t-SNE islands are not evidence, so the plot only served to look for structure (positives are weakly grouped, no islands).
+Rejected: UMAP: not run (dependency). Adding the cluster id now: rejected, it needs a fit inside the folds and a with/without test, which is Step 16 work. A per-cluster model: rejected, the small cluster holds only about 5.6% of rows.
+Confidence: Medium (clusters were fitted on 20,000 rows; a high silhouette at k = 2 often just means one small outlying group)
+Affects later steps: Step 16 tests the k = 2 cluster id as an extra feature and reports whether it adds anything beyond the covis features.
+Needs human input: no
+
+### Step 12. Time, drift and leakage
+Kind: Diagnostic
+Options run: A trends by day (events table days 0-13, candidates table by session start day); B Population Stability Index per feature, early (days 11-12) vs late (day 13); C adversarial validation (LightGBM, early vs late, 3 grouped folds); D leakage screen of every feature, plus row-order and session-id checks.
+Observed: A: the target rate is flat across days 11-13 (0.44%); event volume is 0.82-1.27 million per day with the last day the busiest. B: PSI is hours_since_last_seen 11.262, prefix_share_same_cat 0.006, item_cat_size 0.004 for the three highest; 1 feature(s) shifted (PSI above 0.25), 0 to watch. C: adversarial AUC 0.983, the drivers are hours_since_last_seen, log_clicks_3d, prefix_len. D: every feature is built from the prefix or from events before the cutoff (day 11), none is derived from the outcome, and none has a single-feature AUC above 0.9 or below 0.1; row order (AUC 0.499) and session id (AUC 0.499) are unrelated to the target. Suspects: none. The drift is one feature: hours_since_last_seen has a median of about 19, 43 and 66 hours on days 11, 12 and 13, because it is measured from the fixed day-11 cutoff, so it grows by about 24 hours per day by construction (the other 15 features have PSI below 0.01).
+Decision: No feature is excluded for leakage. hours_since_last_seen is flagged as time-dependent by construction: a session later than day 11 always sees larger values, so a model trained on days 11-13 would face still larger values in production. It is not dropped here; Step 15 scores with and without it under the time-based split, and the fix (measure from the session start, which needs a rebuilt candidate table) goes on the human-review list.
+Why: Guide rules: exclude features not available at prediction time or derived from the outcome (none); list drifting features without dropping them; escalate any suspected leakage (none).
+Rejected: Dropping the drifting features now: rejected, the guide asks to test the effect under a time-based split first (Step 15). Treating a strong feature as leakage because it is strong: rejected, the strongest features (AUC 0.8) are explained by how the candidate pool is built.
+Confidence: High for the leakage verdict and for the cause of the drift (the daily growth is visible in the medians); Medium for the effect on the score, which Step 15 measures.
+Affects later steps: Step 15 tests a time-based split (train days 11-12, validate day 13) with and without hours_since_last_seen. The train/serving shift noted in issue #22 is confirmed for this feature and not for the covis magnitudes.
+Needs human input: yes: whether to rebuild the candidate table with hours measured from the session start (Step 17 review list)
+
+### Step 13. Categorical encoding
+Kind: Selection
+Options run: category (80 levels, over-50 band): drop, ordinal, frequency, one-hot with levels under 1% grouped (34 levels), target encoding (5-fold cross-fitted by session, smoothing 20). aid (about a million levels): drop, ordinal, frequency, target encoding (smoothing 50); one-hot skipped (one column per level). All encoders fitted inside the training folds; both families; number of columns reported.
+Observed: category, PR-AUC linear / gbm: drop 0.0598 / 0.0373, ordinal 0.0593 / 0.0375, frequency 0.0600 / 0.0375, one-hot 0.0597 / 0.0371, target encoding 0.0596 / 0.0350. aid: drop 0.0598 / 0.0373, ordinal 0.0597 / 0.0361, frequency 0.0593 / 0.0376, target encoding 0.0609 / 0.0313.
+Decision: category: linear drop category, gbm drop category. aid: linear drop aid (baseline), gbm drop aid (baseline).
+Why: Guide rules: decide per column by cardinality band and per family; prefer the simpler encoding when tied; use target encoding only if it beats the alternatives by more than the noise (it carries the most leakage risk); drop useless or leaky columns. Item ids are identifiers (Step 6): dropping is the default unless an encoding clearly helps.
+Rejected: One-hot for category: 49 extra columns and no better score. Target encoding for category: no gain for the linear model, worse for the GBM (0.0350 against 0.0373). Target encoding for aid: +0.0011 for the linear model (inside the 0.0020 noise) and clearly worse for the GBM (0.0313), a sign that it overfits item ids. Ordinal for a synthetic cluster id: invents an order that does not exist. One-hot for aid: infeasible (about a million columns).
+Confidence: Medium for both columns: every option is inside the noise, so the choice rests on the tie rule (simplest wins) with one fold seed; a repeat could only change the outcome if an encoding moved by more than the noise.
+Affects later steps: Neither category nor aid enters the model as a feature; Steps 14-16 use the 16 numeric features.
+Needs human input: no
+
