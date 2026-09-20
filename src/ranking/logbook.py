@@ -44,7 +44,7 @@ def snapshot_id():
 
 
 def commit_sha():
-    out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True)
+    out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=False)
     return out.stdout.strip() or "unknown"
 
 
