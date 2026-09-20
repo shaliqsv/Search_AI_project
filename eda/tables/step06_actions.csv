@@ -1,0 +1,6 @@
+action,columns
+mark for the Step 8 transform test,"rank_covis, rrf, cart_rate, order_rate, pop_cat_pct, item_seen, hours_since_last_seen, covis_max, covis_mean, covis_wsum, prefix_len, prefix_n_cart, prefix_n_order"
+candidate 'is zero' flag,"covis_max, covis_mean, covis_wsum, prefix_n_cart, prefix_n_order"
+drop (constant),item_seen
+check rare value vs target (near-constant),-
+"ID-like, exclude from features","session, aid"

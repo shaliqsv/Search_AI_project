@@ -1,0 +1,3 @@
+method,flagged,share,target_rate_flagged,target_rate_rest
+"Isolation Forest (200,000 rows)",19279,0.096395,0.01986617563151616,0.0026615611910071326
+"Local Outlier Factor (20,000 rows)",282,0.0141,0.010638297872340425,0.00405720661324678

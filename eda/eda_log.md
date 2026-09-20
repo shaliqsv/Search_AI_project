@@ -68,3 +68,14 @@ Confidence: Linear: Medium (three tied options, chosen by the simplicity rule). 
 Affects later steps: Step 6-7 use the coded values as they are; Step 14 keeps in mind that most negatives have rank_covis = 201, so one code carries much of the signal. The two coded columns must be treated the same in training and serving (issue #58).
 Needs human input: no
 
+### Step 6. Univariate analysis
+Kind: Diagnostic
+Options run: Numeric: A summary statistics (mean, sd, min, percentiles 1-99, max, skew, kurtosis, share of zeros), B histogram + box plot + ECDF for all 18 features (eda/figures/step06_*.png), C Q-Q plots of the 4 most skewed features and a Shapiro test on 5,000 rows. Categorical: A level counts, B cardinality and rare levels, C consistency. Also the shape of the events table (events per session, per item, per day).
+Observed: 13 of 18 numeric features have |skew| > 1 (rank_covis, rrf, cart_rate, order_rate, pop_cat_pct, item_seen, hours_since_last_seen, covis_max, covis_mean, covis_wsum, prefix_len, prefix_n_cart, prefix_n_order). 5 have more than half zeros (covis_max, covis_mean, covis_wsum, prefix_n_cart, prefix_n_order). Constant: item_seen; near-constant (> 99.9% one value): none. Every Shapiro test rejects normality (p < 0.05) on 5,000 rows, as expected for counts and ranks; the Q-Q plots show heavy right tails for the most skewed features. `category` has 80 levels, none missing, largest level 5.6%. Events: median 5 events per session (max 485), median 3 events per item (max 8,071).
+Decision: Actions: mark the skewed features for the transform test in Step 8; add an 'is zero' flag for the zero-spike columns if Step 9 shows the zero group differs; drop the constant column(s); check the target rate of near-constant columns before dropping; keep ids out of the features.
+Why: The guide's rules for the actions above were applied as written; the Shapiro p-values were read with the plots, not on their own (with millions of rows every test rejects).
+Rejected: Nothing to reject: every option was run and describes a different aspect. Dropping near-constant columns straight away was rejected because a rare value can be the signal (checked against the target above).
+Confidence: High
+Affects later steps: Step 8 tests transforms on the skewed features; Step 7 uses the tails seen here; Step 13 handles category (80 levels) and aid.
+Needs human input: no
+

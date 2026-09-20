@@ -10,7 +10,7 @@ Performing search and ranking
 - One-time per machine: `uv run python -m ipykernel install --user --name search-ranking`
 - One-time per clone (strips notebook outputs on commit): `uv run nbstripout --install --attributes .gitattributes`
 - Start: `uv run jupyter lab`, and pick the `search-ranking` kernel
-- Name notebooks `notebooks/NN_short_name.ipynb`, where NN is the issue number. Start from `notebooks/00_template.ipynb`
+- Analysis lives in one notebook per phase: `notebooks/EDA.ipynb` has one section per step of `_doc/eda_guide.md`; its decisions are logged in `eda/eda_log.md`. Reusable helpers are in `notebooks/*.py`. The earlier per-issue notebooks were removed; they are in the git tag `pre-eda-cleanup`.
 - Large data lives in `data/` (gitignored)
 
 ## Data license
