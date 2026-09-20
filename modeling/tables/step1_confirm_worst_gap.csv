@@ -1,0 +1,5 @@
+feature_list,n_base_features,worst_gap,worst_ndcg10
+stability-selection list (4),4,0.0027599303970067546,0.17770914211667732
+LightGBM recursive-elimination list (7),7,0.0,0.18039535128165277
+union of both lists,8,0.002583094540670877,0.1784343250778192
+all 15 EDA features,15,0.0008439567914804713,0.1799085088633403

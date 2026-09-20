@@ -1,0 +1,16 @@
+feature,linear_stability_folds_of_6,lightgbm_rfe_folds_of_6
+rank_covis,6,6
+order_rate,6,5
+pop_cat_pct,6,2
+covis_wsum,6,2
+log_clicks_3d,3,6
+rank_pop,0,6
+log_clicks,0,6
+cart_rate,0,6
+item_cat_size,0,2
+covis_max,0,1
+covis_mean,0,0
+prefix_len,0,0
+prefix_n_cart,0,0
+prefix_n_order,0,0
+prefix_share_same_cat,0,0
