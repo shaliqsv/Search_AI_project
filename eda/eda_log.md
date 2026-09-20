@@ -156,3 +156,14 @@ Confidence: Medium for both columns: every option is inside the noise, so the ch
 Affects later steps: Neither category nor aid enters the model as a feature; Steps 14-16 use the 16 numeric features.
 Needs human input: no
 
+### Step 14. Imbalance handling
+Kind: Selection
+Options run: Baseline (no handling); class weights (balanced); random undersampling of negatives to 10:1 and 1:1; random oversampling of positives to 1:10; SMOTE (own implementation, 5 neighbours) to 1:10; threshold tuning (F1). All resampling on the training part of each fold only; PR-AUC on the untouched validation fold; both families; tied options repeated over 3 fold seeds.
+Observed: PR-AUC (3 folds), linear: none 0.0598; class weights 0.0520; undersample 10:1 0.0566; undersample 1:1 0.0512; oversample random to 1:10 0.0574; SMOTE to 1:10 0.0578. Gradient boosting: none 0.0373; class weights 0.0597; undersample 10:1 0.0570; undersample 1:1 0.0481; oversample random to 1:10 0.0605; SMOTE to 1:10 0.0475. Threshold tuning leaves PR-AUC unchanged by construction; F1 at 0.5 against a threshold tuned on the training fold: linear 0.000 against 0.137; gbm 0.024 against 0.085. After repeating the tied options over 9 folds: linear best none (noise 0.0020), gbm best oversample random to 1:10 (noise 0.0029).
+Decision: Linear: none. Gradient boosting: class weights. Threshold tuning is not part of training: any cut-off is chosen at deployment from the score, and the ranking metric (NDCG@10) does not use one.
+Why: Guide rules: compare options on the untouched validation fold with a metric that is meaningful under imbalance (PR-AUC); resample only inside training folds; prefer the simplest option when tied within the fold noise.
+Rejected: Not chosen, linear: class weights (0.0520), undersample 10:1 (0.0566), undersample 1:1 (0.0512), oversample random to 1:10 (0.0574), SMOTE to 1:10 (0.0578). Not chosen, gbm: none (0.0373), undersample 10:1 (0.0570), undersample 1:1 (0.0481), oversample random to 1:10 (0.0605), SMOTE to 1:10 (0.0475). An option is rejected when it does not beat the chosen one by more than the noise, or scores worse. Resampling also distorts predicted probabilities (see the calibration table), which matters if a probability is ever used rather than a rank.
+Confidence: Medium: three (then nine) folds on 6,000 queries with about 3,500 positives per fold set; differences between the top options are of the same size as the noise.
+Affects later steps: Step 15 re-verifies this choice under the chosen split scheme; Step 16 baselines use the chosen option.
+Needs human input: no
+
