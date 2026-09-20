@@ -1,6 +1,0 @@
-{
- "rows": 8756400,
- "queries": 43782,
- "sha256_of_sorted_session_ids": "69470483a8906e42c447939db13540e608d47cb5ed7d9adea29a13ddb0c87cc6",
- "window": "sessions starting on days 16-17, features as of day 16"
-}
