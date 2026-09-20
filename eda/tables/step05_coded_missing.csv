@@ -1,0 +1,5 @@
+column,coded_missing_value,rows,share
+rank_covis,== 201 (not returned by co-visitation),6160700,0.7700874999999999
+rank_pop,== 201 (not in the category popularity list),982192,0.122774
+covis_max,== 0 (no co-visitation with the prefix; a real zero),6144601,0.768075125
+hours_since_last_seen,filled for unseen items (item_seen == 0),0,0.0
