@@ -86,5 +86,6 @@ def cached(name, fn):
         return pl.read_parquet(path)
     df = fn()
     df.write_parquet(path)
-    df.write_csv(TABLES / f"{name}.csv")
+    if not any(isinstance(t, pl.List | pl.Struct | pl.Array) for t in df.dtypes):          # a CSV copy only for flat tables
+        df.write_csv(TABLES / f"{name}.csv")
     return df

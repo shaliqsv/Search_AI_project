@@ -1,0 +1,10 @@
+slice,head,positive_sessions,needed,enough
+train,click,801757,5000,true
+train,cart,198483,5000,true
+train,order,83207,5000,true
+validation,click,107367,2000,true
+validation,cart,20744,2000,true
+validation,order,8036,2000,true
+test,click,127361,2000,true
+test,cart,24117,2000,true
+test,order,9526,2000,true

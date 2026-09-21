@@ -1,0 +1,2 @@
+id,step,description,features,model,parameters,seeds,metrics,fit_seconds,predict_seconds,size_mb,notes,snapshot_id,commit_sha
+S0-sample-check,0,sample check of weeks 1-2,-,-,-,[42],"{""events"": 13064647, ""sessions"": 1037192}",,,,not a model run; first row of the experiment table,49a199a4f5d9,0e1fd62
