@@ -1,0 +1,114 @@
+{
+  "seed": 42,
+  "train_end_day": 8,
+  "min_freq": 2,
+  "n_train_queries": 400000,
+  "epochs": 4,
+  "batch_size": 2048,
+  "lr": 0.002,
+  "variants": [
+    {
+      "name": "default",
+      "hard": 0,
+      "epochs": 3
+    },
+    {
+      "name": "trial 0",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.002499896118077216,
+      "temperature": 0.06897902277709955,
+      "batch_size": 2048
+    },
+    {
+      "name": "trial 1",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.00213184727453772,
+      "temperature": 0.035868630470776,
+      "batch_size": 4096
+    },
+    {
+      "name": "trial 2",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.003802286006164521,
+      "temperature": 0.12712498312154036,
+      "batch_size": 4096
+    },
+    {
+      "name": "trial 3",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0006526316675985934,
+      "temperature": 0.07050146892067431,
+      "batch_size": 4096
+    },
+    {
+      "name": "trial 4",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0010810206429136633,
+      "temperature": 0.17405681402412845,
+      "batch_size": 4096
+    },
+    {
+      "name": "trial 5",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0027669274949527647,
+      "temperature": 0.0695751400147976,
+      "batch_size": 2048
+    },
+    {
+      "name": "trial 6",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0008020233614078017,
+      "temperature": 0.08591094740125473,
+      "batch_size": 4096
+    },
+    {
+      "name": "trial 7",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0027950876331863635,
+      "temperature": 0.09943861677685649,
+      "batch_size": 1024
+    },
+    {
+      "name": "trial 8",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.002418752613740909,
+      "temperature": 0.05877847291376598,
+      "batch_size": 1024
+    },
+    {
+      "name": "trial 9",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.003202865829915605,
+      "temperature": 0.13135246332613806,
+      "batch_size": 4096
+    },
+    {
+      "name": "trial 10",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0007494562271848268,
+      "temperature": 0.07272048543158047,
+      "batch_size": 2048
+    },
+    {
+      "name": "trial 11",
+      "hard": 0,
+      "epochs": 3,
+      "lr": 0.0006891397479581176,
+      "temperature": 0.10962036853164012,
+      "batch_size": 1024
+    }
+  ],
+  "out": "data/modeling/two_tower_search",
+  "tune_sessions": "data/modeling/tune_sessions.json"
+}

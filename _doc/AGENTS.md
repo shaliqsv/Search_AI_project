@@ -3,16 +3,17 @@
 Learning project: build search and ranking on the OTTO dataset in notebooks, then move one frozen model set through MLOps Levels 0, 1 and 2.
 
 ## Setup
-Python 3.11 with uv.
+Python 3.11 with uv. Task 1 creates `pyproject.toml`; until it is merged these commands do not work yet.
 - Install: `uv sync`
 - Add a dependency: `uv add <pkg>` (dev-only: `uv add --dev <pkg>`). Never use pip directly.
 - Test: `uv run pytest`
 - Lint: `uv run ruff check .`
-- Notebooks: `uv run jupyter lab` (kernel `search-ranking`). One-time setup commands are in the README.
+- Notebooks: `uv run jupyter lab`
+Update this section if task 1 changes any command.
 
 ## Files
-- Tasks are GitHub issues, one at a time. Process is in `_doc/process.md`.
-- `_doc/outdate/` holds the old plan, task list and architecture note. Do not treat them as current.
+- `_doc/process.md`: how work is organised
+-
 
 ## Rules
 - One task at a time. If it needs an output that doesn't exist yet, say so and stop.
@@ -23,7 +24,5 @@ Python 3.11 with uv.
 - Report NDCG@10 with bootstrap intervals. Compare models with paired bootstrap.
 - Cache every LLM call locally and use recorded fixtures in tests. Keep model IDs in config.
 - Don't commit OTTO data until the license check (task 3) allows it.
-- Minimise cost.
-- PyTorch, FAISS and LightGBM cannot be imported in one process on macOS (two OpenMP runtimes, `OMP: Error #15`). Never use `KMP_DUPLICATE_LIB_OK`; run them in separate processes and pass data as .npy/.parquet.
-- Notebook helper code lives in `notebooks/*.py` (imported with `sys.path.insert(0, "notebooks")`) until issue #52 moves it into `src/ranking/`.
-- Before committing, run `uv run ruff check .` and `uv run pytest -q`; commit only if both pass.
+- Minimise cost. Serving is Lambda (`_doc/decisions/001-serving-architecture.md`).
+- Changing a decision means a new entry in `_doc/decisions/`.

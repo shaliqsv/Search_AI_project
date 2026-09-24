@@ -1,0 +1,9 @@
+split,kind,len
+dev,misspelling,99
+dev,multi-intent,50
+dev,out_of_scope,77
+dev,paraphrase,311
+test,misspelling,374
+test,multi-intent,190
+test,out_of_scope,384
+test,paraphrase,1129

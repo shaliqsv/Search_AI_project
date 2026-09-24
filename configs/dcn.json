@@ -1,0 +1,41 @@
+{
+  "spec": "co-visitation only|300|86af2dd2b659",
+  "seed": 42,
+  "pool": 300,
+  "epochs": 4,
+  "trials": 6,
+  "features": [
+    "rank_covis",
+    "rank_tt",
+    "log_clicks",
+    "log_clicks_3d",
+    "cart_rate",
+    "order_rate",
+    "pop_cat_pct",
+    "item_cat_size",
+    "hours_since_last_seen",
+    "covis_max",
+    "covis_mean",
+    "covis_wsum",
+    "prefix_len",
+    "prefix_n_cart",
+    "prefix_n_order",
+    "prefix_share_same_cat",
+    "tt_sim",
+    "tt_missing"
+  ],
+  "log_columns": [
+    "covis_max",
+    "covis_mean",
+    "covis_wsum",
+    "item_cat_size",
+    "prefix_len",
+    "prefix_n_cart",
+    "prefix_n_order",
+    "hours_since_last_seen"
+  ],
+  "train_table": "data/modeling/features_rerank_train.parquet",
+  "validation_table": "data/modeling/features_validation.parquet",
+  "tune_sessions": "data/modeling/tune_sessions.json",
+  "out": "data/modeling/dcn"
+}

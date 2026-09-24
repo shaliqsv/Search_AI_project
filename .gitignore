@@ -6,3 +6,10 @@ __pycache__/
 .DS_Store
 data/
 catboost_info/
+# OTTO-derived per-session tables and caches: not committed while the licence for derived data is unclear
+modeling/tables/*_rows.csv
+modeling/tables/*_rows.parquet
+modeling/tables/step1_baseline_rankings.parquet
+modeling/tables/step3_scored.*
+modeling/tables/step5_recall_rows*.*
+modeling/tables/*.parquet

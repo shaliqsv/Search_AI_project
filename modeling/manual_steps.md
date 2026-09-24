@@ -8,3 +8,4 @@ Every step done by hand, with how long it took. Times marked ? were not recorded
 | 3 | Read the OTTO licence pages (Kaggle pages need a logged-in browser, so not verified) | ? |
 | 0 | Start Docker Desktop for the arm64 image check | pending |
 | 0 | Install and configure the AWS CLI, choose the region, enable Bedrock model access | pending |
+| 11 | Upload the frozen bundle to S3 by hand and time it | pending (needs AWS access; the bundle is ready in data/modeling/bundle_v1) |

@@ -1,0 +1,29 @@
+{
+  "seed": 42,
+  "train_end_day": 8,
+  "min_freq": 2,
+  "n_train_queries": 400000,
+  "epochs": 4,
+  "batch_size": 2048,
+  "lr": 0.002,
+  "variants": [
+    {
+      "name": "in-batch negatives + logQ (tuned)",
+      "hard": 0,
+      "lr": 0.0027950876331863635,
+      "batch_size": 1024,
+      "temperature": 0.09943861677685649,
+      "epochs": 3
+    },
+    {
+      "name": "+ same-category hard negatives",
+      "hard": 1,
+      "lr": 0.0027950876331863635,
+      "batch_size": 1024,
+      "temperature": 0.09943861677685649,
+      "epochs": 3
+    }
+  ],
+  "out": "data/modeling/two_tower",
+  "tune_sessions": "data/modeling/tune_sessions.json"
+}

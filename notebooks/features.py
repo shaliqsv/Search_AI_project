@@ -102,6 +102,28 @@ class AsOf:
         self.matrix = self.covis.m
         self.max_hours = 24.0 * (self.cutoff - int(self.last_ts.min())) / DAY_MS if len(self.last_ts) else 24.0
 
+    # -- export and reload (the same implementation serves training and serving) ---------------
+    STATE_FIELDS = ("stat_aids", "clicks", "carts", "orders", "clicks_3d", "last_ts", "cat_aids", "cat_pct", "cat_size")
+
+    def export_state(self, path):
+        """Write everything `query_features` needs except the co-visitation matrix (stored separately) so serving can rebuild the object without events."""
+        np.savez_compressed(path, cutoff=self.cutoff, cap=self.cap, last_n=self.last_n, decay=self.decay, cart_prior=self.cart_prior, order_prior=self.order_prior,
+                            max_hours=self.max_hours, covis_ids=self.covis.item_ids, **{k: getattr(self, k) for k in self.STATE_FIELDS})
+
+    @classmethod
+    def from_state(cls, path, matrix, item_cluster):
+        z = np.load(path)
+        obj = object.__new__(cls)
+        obj.cutoff, obj.cap, obj.last_n, obj.decay = int(z["cutoff"]), int(z["cap"]), int(z["last_n"]), float(z["decay"])
+        for k in cls.STATE_FIELDS:
+            setattr(obj, k, z[k])
+        obj.cart_prior, obj.order_prior, obj.max_hours = float(z["cart_prior"]), float(z["order_prior"]), float(z["max_hours"])
+        obj.item_cluster = item_cluster
+        obj.pop_by_cat = {}
+        obj.covis = CovisRanker(matrix, z["covis_ids"], item_cluster, fill_by_cat=None, last_n=obj.last_n, decay=obj.decay, top=obj.cap)
+        obj.matrix = obj.covis.m
+        return obj
+
     # -- helpers -----------------------------------------------------------------
     def _lookup(self, table_aids, aids):
         pos = np.searchsorted(table_aids, aids)

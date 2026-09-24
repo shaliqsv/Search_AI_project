@@ -1,0 +1,3 @@
+path,true category,predicted category (TF-IDF stand-in),correct-category queries,wrong-category queries
+co-visitation,0.21372334396139456,0.164581501558203,0.20952450866734945,0.0
+LightGBM (no Two-Tower features),0.21625370424674692,0.1654400257681933,0.21061747392513472,0.0

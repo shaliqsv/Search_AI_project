@@ -15,7 +15,8 @@ TYPE_WEIGHTS = np.array([1.0, 3.0, 6.0])
 
 
 class CovisRanker:
-    def __init__(self, matrix, item_ids, item_cluster, fill_by_cat=None, last_n=30, decay=0.8, top=100):
+    def __init__(self, matrix, item_ids, item_cluster, fill_by_cat=None, last_n=30, decay=0.8, top=100, weights=(1.0, 3.0, 6.0)):
+        self.tw = np.asarray(weights, dtype=float)
         self.m = matrix.tocsr()
         self.item_ids = item_ids
         self.index = {int(a): i for i, a in enumerate(item_ids)}
@@ -35,7 +36,7 @@ class CovisRanker:
             a, b = self.m.indptr[i], self.m.indptr[i + 1]
             if a == b:
                 continue
-            weight = TYPE_WEIGHTS[prefix_types[pos]] * self.decay ** (n - 1 - pos)
+            weight = self.tw[prefix_types[pos]] * self.decay ** (n - 1 - pos)
             cols.append(self.m.indices[a:b])
             vals.append(self.m.data[a:b] * weight)
         if not cols:

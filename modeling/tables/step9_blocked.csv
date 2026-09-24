@@ -1,0 +1,6 @@
+item,status,needs
+"classifier: Claude top-3 with confidences, calibration on the dev part, comparison with the baseline",blocked,Bedrock or Anthropic API access
+classifier: sentence-embedding baseline,not run,sentence-transformers and a model download
+"explainer: Claude explanations, live faithfulness run",blocked,Bedrock or Anthropic API access
+"judge: about 1,500 batch calls, weighted kappa and Spearman against hand labels, position and verbosity checks",blocked,API access and the human's 150-200 labels (modeling/artifacts/judge_labeling_sheet.csv)
+"Bedrock model availability in the chosen region, cost alarm",blocked,AWS region and credentials

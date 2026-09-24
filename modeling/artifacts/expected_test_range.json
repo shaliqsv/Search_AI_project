@@ -1,0 +1,32 @@
+{
+ "written_before_test_scoring": true,
+ "snapshot_id": "49a199a4f5d9",
+ "commit_sha": "3fbe752",
+ "ranges": {
+  "BM25": {
+   "validation_ndcg10": 0.00031925244370918106,
+   "expected_low": 0.00020021990765968674,
+   "expected_high": 0.0004382849797586754
+  },
+  "co-visitation": {
+   "validation_ndcg10": 0.20319959753994765,
+   "expected_low": 0.2002885758502692,
+   "expected_high": 0.2061106192296261
+  },
+  "Two-Tower": {
+   "validation_ndcg10": 0.0536712597610338,
+   "expected_low": 0.052182852813107285,
+   "expected_high": 0.05515966670896031
+  },
+  "LightGBM LambdaMART": {
+   "validation_ndcg10": 0.20544010244660743,
+   "expected_low": 0.2024712176006405,
+   "expected_high": 0.20840898729257437
+  },
+  "DCN-V2 + MMoE": {
+   "validation_ndcg10": 0.20306902689951012,
+   "expected_low": 0.20014748903296756,
+   "expected_high": 0.20599056476605268
+  }
+ }
+}

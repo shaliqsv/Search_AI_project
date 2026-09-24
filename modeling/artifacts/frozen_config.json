@@ -1,0 +1,112 @@
+{
+ "snapshot_id": "49a199a4f5d9",
+ "commit_sha": "3fbe752",
+ "seed": 42,
+ "split": "docs/decisions/D3-split-rule.md",
+ "gains": {
+  "click": 1,
+  "cart": 2,
+  "order": 3
+ },
+ "categories": {
+  "k": 80,
+  "file": "artifacts/category_names_v2.json"
+ },
+ "candidate_pool": {
+  "frozen_in_step": 5,
+  "decision": "D8",
+  "composition": "co-visitation only",
+  "size": 300,
+  "rrf_k": 60,
+  "retrievers": {
+   "tt": "Two-Tower, exact scoring inside the query category, top-N",
+   "covis": "co-visitation (Step 3 tuned parameters), category-restricted, popularity fill, top-N"
+  },
+  "covis_params": {
+   "w_cart": 1.9731935392598379,
+   "w_order": 6.133931040997376,
+   "decay": 0.5219018828936144,
+   "last_n": 50
+  },
+  "recall_validation": 0.6469899211576488
+ },
+ "covis_baseline_params": {
+  "w_cart": 1.9731935392598379,
+  "w_order": 6.133931040997376,
+  "decay": 0.5219018828936144,
+  "last_n": 50
+ },
+ "bm25_params": {
+  "k1": 1.5,
+  "b": 0.75
+ },
+ "two_tower": {
+  "variant": "in-batch negatives + logQ (tuned)",
+  "config": "86af2dd2b659"
+ },
+ "lightgbm": {
+  "variant": "lambdarank, without Two-Tower features",
+  "params": {
+   "learning_rate": 0.028993575410585698,
+   "num_leaves": 15,
+   "min_data_in_leaf": 100,
+   "feature_fraction": 0.5761560513565842
+  },
+  "features": [
+   "rank_covis",
+   "log_clicks",
+   "log_clicks_3d",
+   "cart_rate",
+   "order_rate",
+   "pop_cat_pct",
+   "item_cat_size",
+   "hours_since_last_seen",
+   "covis_max",
+   "covis_mean",
+   "covis_wsum",
+   "prefix_len",
+   "prefix_n_cart",
+   "prefix_n_order",
+   "prefix_share_same_cat"
+  ]
+ },
+ "dcn_mmoe": {
+  "params": {
+   "n_cross": 1,
+   "n_experts": 8,
+   "expert_dim": 32,
+   "lr": 0.0032570805611402084,
+   "tw": [
+    1.0,
+    2.0,
+    4.0
+   ]
+  },
+  "blend_weights": [
+   0.5,
+   0.5,
+   0.0
+  ],
+  "features": [
+   "rank_covis",
+   "rank_tt",
+   "log_clicks",
+   "log_clicks_3d",
+   "cart_rate",
+   "order_rate",
+   "pop_cat_pct",
+   "item_cat_size",
+   "hours_since_last_seen",
+   "covis_max",
+   "covis_mean",
+   "covis_wsum",
+   "prefix_len",
+   "prefix_n_cart",
+   "prefix_n_order",
+   "prefix_share_same_cat",
+   "tt_sim",
+   "tt_missing"
+  ]
+ },
+ "feature_schema_sha256": "4867c5347facbc14a375dde5eeee534a337162a0f5ac739c790dcbc079164e23"
+}

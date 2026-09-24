@@ -26,3 +26,6 @@ Time-ordered slices mimic deployment and stop future behaviour from leaking into
 
 ## Consequences
 The first-phase results (issues #4-#33) used days 14-15 and one shared feature table and are history, not results of this phase.
+
+## Addendum (modelling Step 4): the training window is split for the two stages
+Days 0-7 train the candidate generators (the Two-Tower and the co-visitation matrix used for the training-query features); days 8-9 train the rerankers (LightGBM, DCN-V2 with MMoE). Why: a reranker trained on Two-Tower similarities of queries the Two-Tower has already seen would learn in-sample similarities that do not exist at validation or test time, and co-visitation features of a training query must not come from a matrix that contains that same session. Consequences: reranker training queries have features as of the day before each session (D25) from days 0-7 statistics and the days 0-7 co-visitation matrix; validation and test queries use the days 0-9 co-visitation matrix (categories and the baseline co-visitation of Step 3 also use days 0-9, D4). The Two-Tower sees 8 days instead of 10, which makes its Step 4 numbers slightly conservative.
