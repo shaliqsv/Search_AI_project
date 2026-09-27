@@ -1,5 +1,0 @@
-column,stored_as,meaning,conversion
-session,int64,identifier,"keep as id, never a numeric feature"
-aid,int32,identifier,keep as id
-ts,int64,epoch milliseconds,convert to datetime for time steps; the raw integer is kept for splits
-type,int8,"categorical code 0 click, 1 cart, 2 order",cast to a categorical for encoders; the code is fine for trees

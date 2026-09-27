@@ -1,5 +1,0 @@
-kind,rows_beyond_the_first,share
-A exact (all 4 columns),19990,0.0015300834381518308
-"B key (session, aid, type, ts)",19990,0.0015300834381518308
-"B key (session, aid, ts), any type",19990,0.0015300834381518308
-"C near (session, aid, type, same second)",35752,0.0027365454267535894

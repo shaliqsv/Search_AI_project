@@ -1,4 +1,0 @@
-column,n_levels,missing,top_level_share,levels_under_1pct,smallest_level_share
-category,80,0,0.056499999999999995,34,0.0032749999999999997
-type (events),3,0,0.898,0,0.0239
-"aid (item id, events)",1070425,0,0.000617774058495419,1070425,7.654244312915612e-8

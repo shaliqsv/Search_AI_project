@@ -1,6 +1,0 @@
-rule,violations,share
-ts inside the 4 labelled weeks,0,0.0
-"type not in {0,1,2}",0,0.0
-aid < 0,0,0.0
-session < 0,0,0.0
-ts in the future of the development cut (>= day 14),0,0.0

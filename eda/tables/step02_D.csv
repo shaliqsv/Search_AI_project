@@ -1,5 +1,0 @@
-rule,violations,share
-timestamps go backwards inside a session,0,0.0
-a session appears in more than one block (blocks - sessions),0,0.0
-a cart of an item with no earlier click (share of session-item pairs),176354,0.02142937168101375
-an order of an item with no earlier cart (share of session-item pairs),28708,0.0034884062863249077

@@ -1,5 +1,0 @@
-pattern,label,evidence
-"long sessions (prefix_len, prefix_n_cart, prefix_n_order in the far tail)",real extreme,session lengths up to 495 events exist in the events table (Step 6)
-very large co-visitation weights (covis_*),real extreme,"weights are sums over up to 30 events and 10 offsets, so large values are possible"
-"cart_rate above 1 (carts per click; 1,300 rows, max 2.78) and high order_rate",real extreme,"cart_rate is carts per click, so it can exceed 1 when an item is carted more than clicked (Step 2D: carts without clicks exist); order_rate stays in [0, 1]"
-rank/popularity extremes,real extreme,ranks are bounded 1-201 by construction
