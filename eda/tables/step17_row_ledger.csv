@@ -1,4 +1,0 @@
-step,what,rows,action
-4,"exact duplicate events (all four columns equal), development events",19990,click/cart copies to drop when events are rebuilt; NOT applied to the candidate table (issue #109); order copies kept
-7,outlier rows flagged by any method,0,none removed: the flagged rows carry the signal
-5,rows with missing values dropped,0,none removed: missing values are coded and informative

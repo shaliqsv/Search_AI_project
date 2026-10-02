@@ -1,9 +1,0 @@
-column,step,reason,rows_affected
-item_seen,6,constant (1 in every row),8000000
-category_conf,17,"constant 1.0: placeholder for the classifier of issue #34; missed by the Step 6 scan, found here",8000000
-rrf,10,derived from rank_covis and rank_pop (VIF 18.6); dropping it is tied or better in both families,8000000
-hours_since_last_seen,15,"measured from a fixed cutoff so it grows by about 24 hours per day (PSI 11.3, Step 12); no signal alone (AUC 0.51, Step 9); dropping it is tied",8000000
-category,13,no encoding beats dropping it beyond the noise (Cramer's V 0.015),8000000
-aid,13,item identifier; no encoding beats dropping it (target encoding hurts the GBM),8000000
-session,6,"identifier, used only to group folds",8000000
-"label, y_click, y_cart, y_order",0,outcome columns: the target is y = label > 0; the others are derived from the outcome and must never be features,8000000

@@ -4,12 +4,9 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 .DS_Store
-data/
+/data/
 catboost_info/
-# OTTO-derived per-session tables and caches: not committed while the licence for derived data is unclear
-modeling/tables/*_rows.csv
-modeling/tables/*_rows.parquet
-modeling/tables/step1_baseline_rankings.parquet
-modeling/tables/step3_scored.*
-modeling/tables/step5_recall_rows*.*
-modeling/tables/*.parquet
+# OTTO license confirmed (CC-BY 4.0, see _doc/decisions/D1-otto-license.md): derived samples/aggregates
+# may be committed with attribution. Raw/full-scale per-row dumps stay out of git for size, not license.
+*_rows.parquet
+*_rows.csv

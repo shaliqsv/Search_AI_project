@@ -1,87 +1,55 @@
-"""Ranking metrics written by hand (issue #13).
+"""Ranking metrics: NDCG@k and OTTO's weighted recall@k.
 
-Import from a notebook in this folder with `from metrics import ndcg_at_k, ...`.
-They stay here, not in `src/ranking/`, until issue #52 moves notebook code into the package.
-
-Conventions
-- `ranking`: list of item ids, best first. Repeated ids count only at their first position.
-- `labels`: dict with keys "click", "cart", "order", each a set of item ids that happened later.
-- Gains are linear (not 2**g - 1), so results match scikit-learn's `ndcg_score`.
+Every function takes graded relevance per candidate, aligned to a ranking order,
+one query/session at a time - callers aggregate across queries themselves
+(see bootstrap.py for confidence intervals over sessions).
 """
 
+from __future__ import annotations
+
 import math
-
-DEFAULT_GAINS = {"click": 1, "cart": 2, "order": 3}
-OTTO_WEIGHTS = {"click": 0.10, "cart": 0.30, "order": 0.60}
+from collections.abc import Sequence
 
 
-def _dedupe(ranking):
-    seen = set()
-    out = []
-    for item in ranking:
-        if item not in seen:
-            seen.add(item)
-            out.append(item)
-    return out
+def dcg_at_k(gains: Sequence[float], k: int) -> float:
+    """Discounted cumulative gain of the first k gains, in the given order."""
+    return sum(g / math.log2(i + 2) for i, g in enumerate(gains[:k]))
 
 
-def item_gains(labels, gains=DEFAULT_GAINS):
-    """Gain per item. An item with several event types takes the highest gain."""
-    out = {}
-    for event_type, items in labels.items():
-        for item in items:
-            out[item] = max(out.get(item, 0), gains[event_type])
-    return out
+def ndcg_at_k(gains: Sequence[float], k: int = 10) -> float:
+    """NDCG@k for one query: gains are relevance scores in *predicted rank order*.
 
-
-def _dcg(gain_list):
-    return sum(g / math.log2(i + 2) for i, g in enumerate(gain_list))
-
-
-def ndcg_at_k(ranking, labels, k=10, gains=DEFAULT_GAINS):
-    """NDCG@k. Returns 0.0 when there are no labels (nothing could be found)."""
-    item_gain = item_gains(labels, gains)
-    if not item_gain:
+    Returns 0.0 when no gain is positive (nothing relevant exists to rank,
+    so there is nothing to normalise against).
+    """
+    ideal = sorted(gains, reverse=True)
+    idcg = dcg_at_k(ideal, k)
+    if idcg == 0.0:
         return 0.0
-    top = _dedupe(ranking)[:k]
-    dcg = _dcg([item_gain.get(item, 0) for item in top])
-    ideal = _dcg(sorted(item_gain.values(), reverse=True)[:k])
-    return dcg / ideal
+    return dcg_at_k(gains, k) / idcg
 
 
-def recall_at_k(ranking, relevant, k=20):
-    """Share of relevant items found in the top k. Returns 0.0 when nothing is relevant."""
-    relevant = set(relevant)
-    if not relevant:
+def recall_at_20_micro(
+    predictions: Sequence[Sequence[int]], ground_truths: Sequence[Sequence[int]], k: int = 20
+) -> float:
+    """The real OTTO competition's Recall@20, for one event type, across many sessions.
+
+    Micro-averaged, not a mean of per-session ratios: sum(|pred ∩ truth|) over sum(min(k,
+    |truth|)). A session with empty ground truth contributes 0 to both the numerator and
+    the denominator (per the official spec - verified against otto-de/recsys-dataset/KAGGLE.md).
+    Sessions are implicitly paired by list position between `predictions` and `ground_truths`.
+    """
+    numerator = 0
+    denominator = 0
+    for pred, truth in zip(predictions, ground_truths, strict=True):
+        truth_set = set(truth)
+        numerator += len(truth_set & set(pred[:k]))
+        denominator += min(k, len(truth_set))
+    if denominator == 0:
         return 0.0
-    top = set(_dedupe(ranking)[:k])
-    return len(top & relevant) / len(relevant)
+    return numerator / denominator
 
 
-def otto_recall_by_type(ranking, labels, k=20):
-    """OTTO recall per event type, hits / min(k, number of items). Only types that have labels."""
-    top = set(_dedupe(ranking)[:k])
-    return {
-        event_type: len(top & set(items)) / min(k, len(items))
-        for event_type, items in labels.items()
-        if len(items) > 0
-    }
-
-
-def otto_weighted_recall(per_session_recalls, weights=OTTO_WEIGHTS):
-    """OTTO's score: mean recall per type over the sessions that have that type, then weighted."""
-    total = 0.0
-    for event_type, weight in weights.items():
-        values = [r[event_type] for r in per_session_recalls if event_type in r]
-        if values:
-            total += weight * sum(values) / len(values)
-    return total
-
-
-def otto_weighted_recall_session(ranking, labels, k=20, weights=OTTO_WEIGHTS):
-    """Single-session version, for bootstrap. Weights are renormalised over the types present."""
-    recalls = otto_recall_by_type(ranking, labels, k)
-    if not recalls:
-        return 0.0
-    used = sum(weights[t] for t in recalls)
-    return sum(weights[t] * r for t, r in recalls.items()) / used
+def otto_weighted_score(click_recall: float, cart_recall: float, order_recall: float) -> float:
+    """The competition's official blend: 0.10 clicks + 0.30 carts + 0.60 orders."""
+    return 0.10 * click_recall + 0.30 * cart_recall + 0.60 * order_recall

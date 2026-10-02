@@ -1,5 +1,7 @@
 # Modeling Guide for the Agent: OTTO Search and Ranking (Level 0)
 
+**Superseded by `_doc/decisions/D2-phase6-scope.md`.** This guide's full scope (five methods, Bedrock roles, position-bias study, deployment bundle inside Level 0) is not what Phase 6 follows now. Phase 6 uses `data_scientist.md`'s default steps instead: co-visitation baseline vs. one learned reranker. Kept here for reference only, in case that scope is deliberately revisited later.
+
 This guide covers the modeling work that ends with a frozen model bundle, which is the Level 0 outcome in the project plan. You write and run all code yourself. This guide has none.
 
 The project plan (`plan.md`) is the source of truth. This guide refers to its decisions by ID (D4, D12, and so on) and does not repeat them. If this guide and the plan disagree, the plan wins. Do not change an Accepted decision without the human's approval. Provisional decisions are yours to settle with evidence. Record every new or changed decision in `docs/decisions/` in the plan's format: decision, why, alternatives considered, status.

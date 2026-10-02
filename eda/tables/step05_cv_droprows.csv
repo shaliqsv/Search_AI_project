@@ -1,7 +1,0 @@
-option,family,fold,pr_auc,roc_auc,rows_train,rows_val,n_features
-drop rows with any missing (not ranked),linear,0,0.06094120559802427,0.76066216353666,88526,44111,18
-drop rows with any missing (not ranked),gbm,0,0.0616749081153484,0.7534413286396041,88526,44111,18
-drop rows with any missing (not ranked),linear,1,0.07738238560593122,0.7637367278758612,88146,44491,18
-drop rows with any missing (not ranked),gbm,1,0.06796229754679618,0.7561328812357737,88146,44491,18
-drop rows with any missing (not ranked),linear,2,0.07351173849912934,0.7469578504666224,88602,44035,18
-drop rows with any missing (not ranked),gbm,2,0.07166697161755545,0.7459411634499353,88602,44035,18

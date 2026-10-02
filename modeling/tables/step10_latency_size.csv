@@ -1,7 +1,0 @@
-component,ms_per_query,size_mb
-co-visitation candidates (pool),0.15928784163996312,105.24856
-point-in-time features (shared implementation),1.850811243057251,
-LightGBM scoring of the pool,0.5221748352050781,0.551422
-"DCN-V2 + MMoE scoring of the pool (1 thread, p95)",0.5185850939597003,0.10105
-Two-Tower query tower and exact item search,3.097298741824326,227.26413100000002
-Bedrock classifier and explainer (cost per query),,

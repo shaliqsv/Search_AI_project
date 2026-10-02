@@ -1,3 +1,2 @@
-- Tasks are GitHub issues, one at a time
-- Commit regularly
 - data scientist - grooms a task before anyone implements it, follows _docs/team/datascientist.md
+-Create an issue for each pahse only and comment when the things get done

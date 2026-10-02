@@ -1,2 +1,0 @@
-results_explained,ig_completeness_median_relative_error,removal_lift_logo,removal_lift_ig,agreement_spearman,stability_logo,stability_ig,latency_ms_logo,latency_ms_ig
-1000,0.045399732887744904,1.8108975887298584,1.7882466316223145,0.8145142857142859,0.9855428571428572,0.9861142857142856,0.03049302101135254,0.8493568897247314

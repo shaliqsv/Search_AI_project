@@ -1,43 +1,49 @@
-"""Step 1 of the modelling guide: the Level 0 split rule (decision D3)."""
+from pathlib import Path
 
 import polars as pl
 import pytest
 
-from ranking.data.split import DAY_MS, LEVEL0, START_MS, arrival_slice, level0_slice
+from ranking.data.split import MS_PER_WEEK, assign_week, split_by_week
+
+MOCK_DIR = Path(__file__).resolve().parent.parent / "data" / "mock"
 
 
-def _events():
-    rows = []
-    for s, day in enumerate([0, 5, 9, 9, 10, 11, 11, 12, 13, 13], start=1):     # one session per start day, two events each
-        t0 = START_MS + int(day * DAY_MS + 3_600_000)
-        rows += [{"session": s, "aid": 1, "ts": t0, "type": 0}, {"session": s, "aid": 2, "ts": t0 + 2 * DAY_MS if s in (3, 6, 9) else t0 + 1000, "type": 0}]
-    return pl.DataFrame(rows)
+def test_assign_week_buckets_by_first_event():
+    events = pl.DataFrame(
+        {
+            "session": [1, 1, 2, 2, 3],
+            "ts": [0, 1000, MS_PER_WEEK, MS_PER_WEEK + 500, 2 * MS_PER_WEEK],
+        }
+    )
+    weeks = assign_week(events).sort("session")
+    assert weeks["week"].to_list() == [0, 1, 2]
 
 
-def test_slices_are_session_disjoint_and_inside_weeks_1_and_2():
-    ev = _events()
-    val = set(level0_slice(ev, "validation").collect()["session"].to_list())
-    test = set(level0_slice(ev, "test").collect()["session"].to_list())
-    assert val == {5, 6, 7} and test == {8, 9, 10} and not (val & test)
-    assert level0_slice(ev, "train").collect()["ts"].max() < START_MS + 10 * DAY_MS
-    assert LEVEL0["test"]["end_day"] <= 14
+def test_split_by_week_partitions_sessions_exactly():
+    session_weeks = pl.DataFrame({"session": [1, 2, 3, 4], "week": [0, 0, 1, 2]})
+    splits = split_by_week(session_weeks, train_weeks={0}, val_weeks={1}, test_weeks={2})
+    assert set(splits["train"].to_list()) == {1, 2}
+    assert set(splits["val"].to_list()) == {3}
+    assert set(splits["test"].to_list()) == {4}
 
 
-def test_a_session_crossing_a_boundary_is_cut_there():
-    ev = _events()
-    train = level0_slice(ev, "train").collect()
-    assert train.filter(pl.col("session") == 3).height == 1          # its second event is 2 days later, after the training end
-    val = level0_slice(ev, "validation").collect()
-    assert val.filter(pl.col("session") == 6).height == 1            # cut at the validation end (day 12)
+def test_split_by_week_rejects_overlapping_assignment():
+    session_weeks = pl.DataFrame({"session": [1], "week": [0]})
+    with pytest.raises(ValueError, match="more than one split"):
+        split_by_week(session_weeks, train_weeks={0}, val_weeks={0}, test_weeks=set())
 
 
-def test_the_same_rule_applies_to_a_level_1_arrival():
-    _, evaluation = arrival_slice(_events(), train_end_day=12)
-    assert set(evaluation.collect()["session"].to_list()) == {8, 9, 10}
+def test_split_by_week_rejects_unassigned_week():
+    session_weeks = pl.DataFrame({"session": [1, 2], "week": [0, 5]})
+    with pytest.raises(ValueError, match="not assigned to any split"):
+        split_by_week(session_weeks, train_weeks={0}, val_weeks=set(), test_weeks=set())
 
 
-def test_week_3_is_never_read():
-    with pytest.raises(ValueError):
-        LEVEL0["oops"] = {"start_day": 14, "end_day": 16}
-        level0_slice(_events(), "oops")
-    LEVEL0.pop("oops", None)
+def test_split_on_mock_data_covers_all_sessions():
+    events = pl.read_parquet(MOCK_DIR / "mock_events.parquet")
+    session_weeks = assign_week(events)
+    weeks_present = set(session_weeks["week"].unique().to_list())
+    splits = split_by_week(
+        session_weeks, train_weeks=weeks_present, val_weeks=set(), test_weeks=set()
+    )
+    assert set(splits["train"].to_list()) == set(session_weeks["session"].to_list())

@@ -1,6 +1,0 @@
-option,group,rung
-linear SVM (linear kernel),linear,1
-regularised linear,linear,1
-deeper tree (depth 8),single tree,2
-histogram gradient boosting (scikit-learn),boosting,3
-extra trees,bagged trees,3

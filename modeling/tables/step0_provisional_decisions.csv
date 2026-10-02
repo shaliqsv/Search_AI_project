@@ -1,8 +1,0 @@
-decision,topic,settled_in
-D3,session sample and split,Step 1 (docs/decisions/D3-split-rule.md)
-D4,synthetic categories: K and the naming alignment,Step 2
-D8,five methods and the shared candidate pool,Step 5
-D15,"position bias: simulation, IPW support, train on simulated exposure?",Step 8 (asks the human)
-D18,"explainer: numeric payload, faithfulness test, attribution method",Step 9 (needs Bedrock)
-D21,"training compute: Mac and Colab, CPU-sized runs, spot training?",Steps 4 and 7 (timed)
-D25,one feature implementation shared by training and serving,"starts now (point-in-time rule in D3), finished in Steps 6 and 11"

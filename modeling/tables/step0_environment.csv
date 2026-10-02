@@ -1,7 +1,0 @@
-check,result,status,needed_from_human
-docker daemon,failed to connect to the docker API at unix:///Users/shaliqshukoor/.docker/run/docker.sock; check if the path ,blocked,start Docker Desktop (needed for the arm64 image check)
-AWS CLI,FileNotFoundError: [Errno 2] No such file or directory: 'aws',blocked,install the AWS CLI and configure credentials and a region
-AWS credentials,"none found (no ~/.aws, no AWS_* variables)",blocked,AWS region choice and access; Bedrock model availability cannot be checked without it
-Anthropic API key,not set,blocked,either Bedrock access or an API key for the Claude roles (Step 9)
-model IDs in configuration,"{   ""classifier_model"": ""claude-haiku-4-5-20251001"",   ""explainer_model"": ""claude-haiku-4-5-20251001"",   ""judg",ok (unverified availability),confirm the models exist in the chosen region
-libraries for the models,"lightgbm ok, faiss ok, torch ok",ok on the Mac (onnxruntime not yet installed),none
